@@ -3,7 +3,6 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import NetworkRequestInfo from '../NetworkRequestInfo';
 import { useThemedStyles, Theme } from '../theme';
 import ResultItem from './ResultItem';
-import SearchBar from './SearchBar';
 import { NetworkRequestInfoRow } from '../types';
 
 interface Props {
@@ -40,26 +39,7 @@ const RequestList: React.FC<Props> = ({
   }, [requestsInfo, maxRows, searchValue]);
 
   return (
-    <View style={styles.container}>
-      {!showDetails && (
-        <SearchBar
-          value={searchValue}
-          onChangeText={onChangeSearchText}
-          options={options}
-        />
-      )}
-      <FlatList
-        keyExtractor={(item) => item.id}
-        data={filteredRequests}
-        renderItem={({ item }) => (
-          <ResultItem
-            request={item}
-            onPress={() => onPressItem(item.id)}
-            compact={compact}
-          />
-        )}
-      />
-    </View>
+    filteredRequests?.map((item) => <ResultItem request={item} key={item.id} onPress={() => onPressItem(item.id)} compact={compact} />)
   );
 };
 
